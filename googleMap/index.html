@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/x-icon" href="credit.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Credit Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+   <link rel = "stylesheet" href="style.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
+  </head>
+  <body>
+    <h1 id="demo"><div class="heading" style="margin-top:22px ;">
+  Credit Form</div>
+      <div class="animation"> 
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<lottie-player src="https://assets4.lottiefiles.com/packages/lf20_6ap2xfbb.json"  background="transparent"  speed="1"  style="width: 90px; height: 90px;"  loop  autoplay></lottie-player>
+</div>   
+</h1>
+   
+        <div class="form-body">
+         <div class="nameanimation">
+    <label id="name"  style="font-weight: bold;"> Full Name (पुरा नाम) : </label>
+   <label class="typewrite" data-period="2000" data-type='[ "Example , Deepak Shrestha"," जस्तै :- दिपक श्रेष्ठ"]'></label> 
+   <span class="wrap"></span>
+         </div>
+     <br> 
+    <input type="name" id="custname" placeholder="Enter your Full name" onclick="getnavigation()"  >  
+    <br>
+  <label id="phn" style="font-weight: bold;">   Phone Number(फोन नम्बर) : </label>
+  <label class="typewrite" data-period="2000" data-type='[ "Example , 9855066647"," जस्तै :- ९८५५०६६६४७"]'></label> 
+  <br> 
+   <input type="text" id="custnumber" placeholder="+977" onclick="getnavigation()" value="+977">
+   <br>
+  <label id="credit" style="font-weight: bold;">  Credit Amount (बाँकी रकम) : </label>
+  <label class="typewrite" data-period="2000" data-type='[ "Remaining Balance"," दिन बाकी रकम"]'></label> 
+  <br>
+  <input type = "number " id="custamt" placeholder="Rs." value="Rs." onclick="getnavigation()">
+  <br>
+    <label id="address" style="font-weight: bold;"> Address(ठेगाना) :  </label>
+    <label class="typewrite" data-period="2000" data-type='[ "Bharatpur","Tandi"," Parsa","Bhandara","Gadauli","loather"]'></label> 
+     <br>
+    <input type="name" id="custadd" placeholder="location" onclick="getnavigation()">
+    <br>
+    
+     <br>
+   
+    <br>
+   </div>
+       
+   <input type="name" id="custgpsadd" placeholder="location" onclick="getnavigation()" hidden>
+    <div class="container">
+    <div class="center">
+      <p id="text"></p>
+    <!-- <button  id="submit" onclick="getLocation()" name="submit"> Submit</button> -->
+    <button type="button"  id="submitData" name="submitData" class="registerbtn">Submit</button>
+
+  </div>
+</div>
+
+    <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
+        import {getDatabase, ref, set, onValue, update} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+ 
+        const firebaseConfig = {
+        apiKey: "AIzaSyBs82S-a8B_n2nvE58-eSJaBEZS_hOqpQw",
+        authDomain: "formproject-97909.firebaseapp.com",
+        projectId: "formproject-97909",
+        storageBucket: "formproject-97909.appspot.com",
+        messagingSenderId: "1022928071280",
+        appId: "1:1022928071280:web:424997b8216d1a093562b5",
+        measurementId: "G-B1KN9Z1612"
+  };
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+  // Initialize Firebase
+
+  
+
+  submitData.addEventListener('click', (e) => {
+
+var customer_name = document.getElementById('custname').value;
+var phone_number = document.getElementById('custnumber').value;
+var credit_amount = document.getElementById('custamt').value;
+var customer_address = document.getElementById('custadd').value;
+var gps_location=document.getElementById('custgpsadd').value;
+
+
+// const newKey = push(child(ref(database), 'users')).key;
+
+//add data
+set(ref(database, 'creditform/' + customer_name +phone_number), {
+    customer_name:customer_name,
+    phone_number: phone_number,
+    credit_amount:credit_amount,
+    customer_address: customer_address,
+    gps_location:gps_location
+}).then(() => {
+  var x = document.getElementById('text');
+  x.innerHTML="Thank you for submitting";
+})
+    .catch((error) => {
+        // The write failed...
+        var x = document.getElementById('text');
+         x.innerHTML="Error - Submit form";
+    });
+
+});
+
+// readData.addEventListener('click', (e) => {
+// // read data
+// const starCountRef = ref(database, 'users/' + username);
+// onValue(starCountRef, (snapshot) => {
+//     const data = snapshot.val();
+//     alert(data.email);
+// });
+// });
+
+// updateData.addEventListener('click', (e) => {
+// //update data
+// update(ref(database, 'users/' + username), {
+//     email: email,
+//     age: age
+// }).then(() => {
+//     // Data saved successfully!
+//     alert('data updated');
+// })
+//     .catch((error) => {
+//         // The write failed...
+//         alert(error);
+//     });
+// });
+
+// removeData.addEventListener('click', (e) => {
+// //remove data
+// removeData.addEventListener('click',(e) => {
+//     var username = document.getElementById('username').value;
+
+//     remove(ref(database, 'users/' + username));
+//     alert('removed');
+// });
+// });
+</script>
+ </script>
+    <script src="index.js"> </script>
+ 
+  </body>
+</html>
